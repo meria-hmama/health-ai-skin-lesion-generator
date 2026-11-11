@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html>
-<head><title>Skin Lesion Generator</title></head>
+<head>
+<title>Skin Lesion Generator</title>
+<link rel="stylesheet" href="style.css">
+</head>
 <body>
+<main>
 <h1>Synthetic Skin Lesion Generator</h1>
+<p class="intro">A DCGAN trained on DermaMNIST generates new synthetic skin lesion images. For research and learning only, not for diagnosis.</p>
+<section class="card">
+<h2>Generate a new image</h2>
 <button id="btn">Generate</button>
-<br>
-<img id="out" width="256">
+<img id="out" width="256" alt="Generated lesion">
+</section>
+<section class="card">
 <h2>Latent space explorer</h2>
+<p>Move the slider to blend smoothly between two generated images.</p>
 <input type="range" id="slider" min="0" max="1" step="0.05" value="0">
 <span id="val">0</span>
-<br>
-<img id="mix" width="256">
+<img id="mix" width="256" alt="Blended lesion">
+</section>
+</main>
 <script>
 const btn = document.getElementById("btn");
 const out = document.getElementById("out");
