@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Skin Lesion Generator</title></head>
+<body>
+<h1>Synthetic Skin Lesion Generator</h1>
+<button id="btn">Generate</button>
+<br>
+<img id="out" width="256">
+<script>
+const btn = document.getElementById("btn");
+const out = document.getElementById("out");
+btn.addEventListener("click", async () => {
+  const res = await fetch("http://127.0.0.1:8000/generate");
+  const blob = await res.blob();
+  out.src = URL.createObjectURL(blob);
+});
+</script>
+</body>
+</html>

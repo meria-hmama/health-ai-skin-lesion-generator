@@ -1,10 +1,12 @@
 import io                                           #building a file in memory, not on disk
-import torch                                        #PyTorch
+import torch 
+from fastapi.middleware.cors import CORSMiddleware                                       #PyTorch
 from fastapi import FastAPI, Response               #lets send raw image bytes
 from torchvision.utils import save_image            #turning a tensor into a picture
 from model import Generator, latent_dim             #my network and the number 100
 
-app = FastAPI()                                     #the app object uvicorn runs
+app = FastAPI()      
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])                                #the app object uvicorn runs
 
 netG = Generator()                                  #building the generator once, when the server starts
 netG.load_state_dict(torch.load("generator.pth", map_location="cpu"))  # load the trained weights
