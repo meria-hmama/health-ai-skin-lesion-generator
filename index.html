@@ -6,20 +6,26 @@
 </head>
 <body>
 <main>
+<header>
+<span class="pill">DCGAN · DermaMNIST · PyTorch · FastAPI</span>
 <h1>Synthetic Skin Lesion Generator</h1>
-<p class="intro">A DCGAN trained on DermaMNIST generates new synthetic skin lesion images. For research and learning only, not for diagnosis.</p>
+<p class="intro">A generative adversarial network trained on DermaMNIST creates new synthetic skin lesion images from a 100-dimensional latent vector.</p>
+</header>
+<div class="grid">
 <section class="card">
-<h2>Generate a new image</h2>
+<h2>Generate</h2>
+<p>Sample a random point in the latent space.</p>
 <button id="btn">Generate</button>
-<img id="out" width="256" alt="Generated lesion">
+<div class="frame"><img id="out" alt="Generated lesion"></div>
 </section>
 <section class="card">
 <h2>Latent space explorer</h2>
-<p>Move the slider to blend smoothly between two generated images.</p>
-<input type="range" id="slider" min="0" max="1" step="0.05" value="0">
-<span id="val">0</span>
-<img id="mix" width="256" alt="Blended lesion">
+<p>Blend smoothly between two fixed latent vectors.</p>
+<div class="slider-row"><input type="range" id="slider" min="0" max="1" step="0.05" value="0"><span id="val">0</span></div>
+<div class="frame"><img id="mix" alt="Blended lesion"></div>
 </section>
+</div>
+<footer>Synthetic images for research and learning only. Not for diagnosis.</footer>
 </main>
 <script>
 const btn = document.getElementById("btn");
