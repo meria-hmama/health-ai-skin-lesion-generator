@@ -6,6 +6,11 @@
 <button id="btn">Generate</button>
 <br>
 <img id="out" width="256">
+<h2>Latent space explorer</h2>
+<input type="range" id="slider" min="0" max="1" step="0.05" value="0">
+<span id="val">0</span>
+<br>
+<img id="mix" width="256">
 <script>
 const btn = document.getElementById("btn");
 const out = document.getElementById("out");
@@ -14,6 +19,17 @@ btn.addEventListener("click", async () => {
   const blob = await res.blob();
   out.src = URL.createObjectURL(blob);
 });
+const slider = document.getElementById("slider");
+const val = document.getElementById("val");
+const mix = document.getElementById("mix");
+async function showMix() {
+  val.textContent = slider.value;
+  const res = await fetch("http://127.0.0.1:8000/interpolate?alpha=" + slider.value);
+  const blob = await res.blob();
+  mix.src = URL.createObjectURL(blob);
+}
+slider.addEventListener("input", showMix);
+showMix();
 </script>
 </body>
 </html>
