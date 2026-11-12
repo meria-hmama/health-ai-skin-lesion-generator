@@ -25,8 +25,10 @@ The second panel is the part I enjoyed building most. Each image comes from a li
 **The model.** It's a DCGAN in PyTorch, and you can read it in `model.py`. The training is in `train_gan.ipynb`.
 
 **What went wrong first.** Two things broke, and fixing them taught me more than anything else in the project:
-1. The discriminator got too good too fast, so the generator stopped learning. Label smoothing fixed it.
-2. Then the generator produced pure noise. The cause was weight initialisation, and using the DCGAN initialisation fixed it. After that, lesion-like shapes started to appear within about 10 epochs.
+1. The discriminator got too good too fast, so the generator stopped learning. I added label smoothing.
+2. Then the generator produced pure noise. I switched to the DCGAN weight initialisation and lesion-like shapes started to appear within about 10 epochs.
+
+I fixed them one after the other, so I didn't know which fix mattered. I tested that afterwards in a small ablation: the initialisation made the biggest difference, and label smoothing mostly kept the discriminator from winning. The details are in [REPORT.md](REPORT.md).
 
 **The API.** `main.py` is a small FastAPI app. It loads the trained generator once when it starts and has two endpoints: `/generate` for a random image and `/interpolate?alpha=0.5` for the slider.
 
@@ -45,12 +47,11 @@ Then open `index.html` in your browser, for example with the VS Code Live Server
 
 - The images are small and often blurry. 64×64 doesn't leave much room for detail.
 - Rare lesion types look worse because the model saw very few of them.
-- I judged quality only by looking at samples. I haven't measured it with a proper metric like FID.
+- Quality is measured with FID on only 2,000 images and one seed per run, so small differences mean little (see the limits in REPORT.md).
 
 ## What I want to try next
 
-- Measure the model with FID instead of just looking at it.
-- Run a small ablation: train with and without label smoothing and the DCGAN initialisation, and compare the results properly.
+- Repeat the ablation with several seeds and report the spread.
 - Make the generator class-aware, so I can ask for a specific lesion type.
 
 ## What's in the repo
@@ -62,3 +63,6 @@ Then open `index.html` in your browser, for example with the VS Code Live Server
 | `model.py` | the generator network |
 | `main.py` | the FastAPI back-end |
 | `index.html`, `style.css` | the web page |
+| `ablation.py` | trains the four GAN versions and computes FID |
+| `REPORT.md` | the ablation write-up, with results and limits |
+| `results/` | sample grids, loss CSVs and the FID summary |
